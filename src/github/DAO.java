@@ -7,6 +7,7 @@ package github;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -14,13 +15,35 @@ import java.sql.SQLException;
  */
 public class DAO {
     
-   
     boolean test(String a,String b,int c)
         {    
         Personne ok;
         ok= findByData(a,b,c);
         return a.equals(ok.getLogin())&& b.equals(ok.getPasse());       
         }
+    
+      public void insert(String nom,String prenom,String quest,String mail,String mdp,int tel,int cin,int age){
+
+        String requete = "insert into citoyens values (?,?,?,?,?,?,?,?)";
+        try {
+            PreparedStatement ps = MyConnection.getInstance().prepareStatement(requete);
+            
+            ps.setString(1, quest);
+            ps.setString(2, mdp);
+            ps.setInt(3,cin );
+            ps.setString(4, nom);
+            ps.setString(5, prenom);
+            ps.setInt(6, age);
+            ps.setString(7, mail);
+            ps.setInt(8, tel);
+            
+            ps.executeUpdate();
+              JOptionPane.showMessageDialog(null, "Ajout effectuée avec succès");
+        } catch (SQLException ex) {
+           //Logger.getLogger(PersonneDao.class.getName()).log(Level.SEVERE, null, ex);
+              JOptionPane.showMessageDialog(null, "erreur lors de l'insertion "+ex.getMessage());
+        }
+    }
      public Personne findByData(String login,String pwd,int a){
      Personne p = new Personne();
      PreparedStatement ps;
@@ -51,4 +74,7 @@ public class DAO {
             System.out.println("erreur lors de la recherche du depot "+ex.getMessage());
             return null;
         }
-    }}
+    }
+
+    
+}
