@@ -13,13 +13,19 @@ import java.sql.SQLException;
  * @author Doct
  */
 public class DAO {
+    boolean test(String a,String b,int c)
+        {    
+        Personne ok;
+        ok= findByData(a,b,c);
+        return a.equals(ok.getLogin())&& b.equals(ok.getPasse());       
+        }
      public Personne findByData(String login,String pwd,int a){
      Personne p = new Personne();
      PreparedStatement ps;
      String requete="";
-     if(a==1){ requete = "select * from citoyens where login=?  and pwd=? ";}
-     if(a==2){ requete = "select * from responsable_etablisement where login=?  and pwd=? ";}
-
+     if(a==1){ requete = "select login,pwd from citoyens where login=?  and pwd=? ";}
+     if(a==2){ requete = "select login,pwd from responsable_etablisement where login=?  and pwd=? ";}
+     if(a==3){ requete = "select login,pwd from admin where login=?  and pwd=? ";}
      
         try {
             try {
